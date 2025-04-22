@@ -1,0 +1,89 @@
+Algorithm:
+1. **Initialize**:
+   - Create 5 philosopher threads.
+   - Create 5 shared fork objects (one between each pair).
+
+2. **Assign Forks**:
+   - Each philosopher gets a left and right fork.
+   - For philosopher 4, reverse fork pickup order to avoid deadlock.
+
+3. **Each Philosopher (in a separate thread)**:
+   - Repeat for 3 cycles:
+     1. Think for a random time.
+     2. Pick up left fork (or right first for philosopher 4).
+     3. Pick up right fork.
+     4. Eat for a random time.
+     5. Put down right fork.
+     6. Put down left fork.
+   - Print "done eating" after finishing cycles.
+
+4. **Main thread starts all philosopher threads.**
+
+
+CODE:
+class Philosopher extends Thread {
+    private final int id;
+    private final Object leftFork;
+    private final Object rightFork;
+
+    public Philosopher(int id, Object leftFork, Object rightFork) {
+        this.id = id;
+        this.leftFork = leftFork;
+        this.rightFork = rightFork;
+    }
+
+    private void think() throws InterruptedException {
+        System.out.println("Philosopher " + id + " is thinking...");
+        Thread.sleep((int) (Math.random() * 1000));
+    }
+
+    private void eat() throws InterruptedException {
+        System.out.println("Philosopher " + id + " is eating...");
+        Thread.sleep((int) (Math.random() * 1000));
+    }
+
+    @Override
+    public void run() {
+        try {
+            for (int i = 0; i < 3; i++) { // Each philosopher eats 3 times
+                think();
+                synchronized (leftFork) {
+                    System.out.println("Philosopher " + id + " picked up left fork.");
+                    synchronized (rightFork) {
+                        System.out.println("Philosopher " + id + " picked up right fork.");
+                        eat();
+                        System.out.println("Philosopher " + id + " put down right fork.");
+                    }
+                    System.out.println("Philosopher " + id + " put down left fork.");
+                }
+            }
+            System.out.println("Philosopher " + id + " is done eating.");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+
+public class DiningPhilosophers {
+    public static void main(String[] args) {
+        Philosopher[] philosophers = new Philosopher[5];
+        Object[] forks = new Object[5];
+
+        for (int i = 0; i < 5; i++) {
+            forks[i] = new Object();
+        }
+
+        for (int i = 0; i < 5; i++) {
+            Object leftFork = forks[i];
+            Object rightFork = forks[(i + 1) % 5];
+
+            // Let the last philosopher pick up right fork first to avoid deadlock
+            if (i == 4) {
+                philosophers[i] = new Philosopher(i, rightFork, leftFork);
+            } else {
+                philosophers[i] = new Philosopher(i, leftFork, rightFork);
+            }
+
+            philosophers[i].start();
+        }
+    }

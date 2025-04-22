@@ -1,0 +1,46 @@
+Algorithm:
+1. **Initialize**:
+   - Create an empty queue `memory` to store the pages.
+   - Initialize `page_faults` to 0.
+2. **For each page in the page reference string**:
+   - **Check if the page is in memory**:
+     - If **not in memory**:
+       - **If there is space in memory** (i.e., `len(memory) < frames`):
+         - Add the page to memory.
+       - **Else**:
+         - Remove the oldest page (first inserted) from memory.
+         - Add the new page to memory.
+       - **Increment page_faults** by 1.
+     - If **in memory**, no page fault occurs.
+3. **Print the current state of memory** and whether a page fault occurred.
+4. **After processing all pages**, output the total **number of page faults**.
+
+
+CODE:
+from collections import deque
+
+def fifo_page_replacement(pages, frames):
+    memory = deque()
+    page_faults = 0
+    print("\nPage\tMemory\t\tPage Fault")
+
+    for page in pages:
+        if page not in memory:
+            if len(memory) < frames:
+                memory.append(page)
+            else:
+                memory.popleft()  # Remove the oldest page
+                memory.append(page)
+            page_faults += 1
+            fault = "Yes"
+        else:
+            fault = "No"
+        print(f"{page}\t{list(memory)}\t\t{fault}")
+
+    print("\nTotal Page Faults:", page_faults)
+
+# ---- Main program ----
+if __name__ == "__main__":
+    pages = list(map(int, input("Enter page reference string (space-separated): ").split()))
+    frames = int(input("Enter number of frames: "))
+    fifo_page_replacement(pages, frames)

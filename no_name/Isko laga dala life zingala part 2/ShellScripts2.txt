@@ -1,0 +1,87 @@
+ (a) Display OS version, release number, kernel version
+ #!/bin/bash
+ if [-f /etc/os-release ]
+ then
+ echo-e "OS: `cat /etc/os-release`"
+ fi
+ if [-f /etc/shells ]
+ then
+ echo-e "Available Shells: "
+ echo-e "`cat /etc/shells`"
+ fi
+
+ (b) Display top 10 processes in descending order
+ #!/bin/bash
+ ps-eo pcpu,pid,user,args--no-headers| sort-t.-nk1,2-k4,4-r |head-n 10
+
+ Sample Output:
+ 1.3 4root [ksoftirqd/0]
+ 1.1 9root [ksoftirqd/1]
+ 1.0 17606 nobody /usr/sbin/gmetad
+ 1.0 13root [ksoftirqd/2]
+ 0.3 17401 nobody /usr/sbin/gmond
+ (the fields are %CPU,PID,USER,COMMAND)
+
+ (c) Display processes with highest memory usage
+ #!/bin/bash
+ ps aux--sort-rss
+
+ Sample Output:
+USER PID%CPU%MEM VSZ RSSTTY STATSTART TIMECOMMAND
+ mysql 2897 0.0 1.7136700 17952 ?
+ datadir=/var/lib/mysq
+ root
+ root
+ root
+ root
+ 2483 0.0 1.0 43540 11368 ?
+ 3124 0.0 0.9 25816 10332 ?
+ 2406 0.0 0.9 11572 10004 ?
+ 2928 0.0 0.6 17648 7120 ?
+ nobody 2949 0.0 0.6 17648 6492?
+ nobody 2950 0.0 0.6 17648 6492?
+ nobody 2951 0.0 0.6 17648 6492?
+ nobody 2952 0.0 0.6 17648 6492?
+ nobody 2953 0.0 0.6 17648 6492?
+ 68
+ root
+ root
+ root
+ root
+ 3115 0.0 0.3 5920 3912 ?
+ 18453 0.0 0.2 10140 2884 ?
+ 2801 0.0 0.2 10020 2328 ?
+ 2959 0.0 0.1 9072 1876 ?
+ 475 0.0 0.1 3004 1600?
+ Sl Oct21 0:00 /usr/libexec/mysqld--basedir=/usr--
+ Ssl Oct21 0:00 /usr/bin/python-E /usr/sbin/setroubleshootd
+ SN Oct21 0:00/usr/bin/python-tt /usr/sbin/yum-updatesd
+ Ss Oct21 0:00/usr/sbin/restorecond
+ Ss Oct21 0:00/usr/local/apache2/bin/httpd-k start
+ S Oct21 0:00/usr/local/apache2/bin/httpd-k start
+ S Oct21 0:00/usr/local/apache2/bin/httpd-k start
+ S Oct21 0:00/usr/local/apache2/bin/httpd-k start
+ S Oct21 0:00/usr/local/apache2/bin/httpd-k start
+ S Oct21 0:00/usr/local/apache2/bin/httpd-k start
+ Ss Oct21 0:01hald
+ Ss 11:09 0:00 sshd: root@pts/0
+ Ss Oct21 0:00cupsd
+ Ss Oct21 0:00sendmail: accepting connections
+ S<s Oct21 0:00 /sbin/udevd-d
+
+ (d) Display current logged in user and logname
+ #!/bin/bash
+ echo "Hi, $USER! Good Morning."
+ echo "Hello, $LOGNAME! "
+ Sample Output:
+ Hi, TCETCMPN! GoodMorning.
+ Hello, TCETCMPN!
+
+ (e) Display current shell, home directory, operating system type, current path setting, current
+ working directory
+ #!/bin/bash
+ echo-e "Current Shell: $SHELL"
+ echo-e "Home Directory: $HOME"
+ echo-e "Your OS Type: $OSTYPE"
+ echo-e "PATH: $PATH"
+ echo-e "Current directory: `pwd`"

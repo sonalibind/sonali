@@ -1,0 +1,88 @@
+Algorithm:
+1. **Input**: 
+   - `requests[]`: Disk requests.
+   - `head`: Initial head position.
+   - `direction`: Direction of movement ("left" or "right").
+   - `disk_size`: Disk size.
+
+2. **Sort the requests** in ascending order.
+
+3. **Divide the requests** into two lists:
+   - `left[]`: Requests less than `head`.
+   - `right[]`: Requests greater than or equal to `head`.
+
+4. **Process based on direction**:
+   - **If direction is "left"**:
+     - Move towards 0, process `left[]`.
+     - Then move towards the highest end, process `right[]`.
+   - **If direction is "right"**:
+     - Move towards the highest end, process `right[]`.
+     - Then move towards 0, process `left[]`.
+
+5. **Calculate the total seek count** by summing the distance moved between requests.
+
+6. **Output**:
+   - Print **seek sequence** and **total seek count**.
+
+
+CODE:
+def scan_disk_scheduling(requests, head, direction, disk_size):
+    requests.sort()  # Sort the requests in increasing order
+    seek_sequence = []
+    seek_count = 0
+    
+    # Divide requests into left and right of the head
+    left = [r for r in requests if r < head]
+    right = [r for r in requests if r >= head]
+    
+    if direction == "left":
+        # Move towards 0 (left)
+        for r in reversed(left):
+            seek_sequence.append(r)
+            seek_count += abs(head - r)
+            head = r
+        
+        # Go to the start (0) if not already there
+        if left:
+            seek_count += head
+            head = 0
+        
+        # Move to the right
+        for r in right:
+            seek_sequence.append(r)
+            seek_count += abs(head - r)
+            head = r
+    
+    elif direction == "right":
+        # Move towards end (right)
+        for r in right:
+            seek_sequence.append(r)
+            seek_count += abs(head - r)
+            head = r
+        
+        # Go to the end (disk_size - 1) if not already there
+        if right:
+            seek_count += (disk_size - 1 - head)
+            head = disk_size - 1
+        
+        # Move to the left
+        for r in reversed(left):
+            seek_sequence.append(r)
+            seek_count += abs(head - r)
+            head = r
+    
+    # Output the result
+    print("\nSeek Sequence:", seek_sequence)
+    print("Total Seek Operations:", seek_count)
+
+# Example usage
+if __name__ == "__main__":
+    requests = [82, 170, 43, 140, 24, 16, 190]
+    head = 50
+    direction = "right"  # or "left"
+    disk_size = 200
+    
+    print("Initial Head Position:", head)
+    print("Request Queue:", requests)
+    print("Direction:", direction)
+    scan_disk_scheduling(requests, head, direction, disk_size)

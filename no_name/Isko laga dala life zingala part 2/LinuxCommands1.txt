@@ -1,0 +1,108 @@
+1. pwd: print working directory. 
+ritesh@RITESHGUPTA:~$ pwd 
+/home/ritesh 
+  
+2. mkdir: Create a new directory 
+ritesh@RITESHGUPTA:~$ mkdir Practical 
+ 
+3. ls: Check the contents of the current directory. 
+ritesh@RITESHGUPTA:~$ ls -a 
+.                            ..                     .bash_history              .bash_logout                 .bashrc  
+.cache                 .dotnet           .lesshst                       .motd_shown               .npm   
+.nvm                   .profile          .sudo_as_admin_successful               .vscode-server   
+.wget-hsts           Practical        wd101                         wd201 
+ritesh@RITESHGUPTA:~$ ls -l 
+total 12 
+drwxr-xr-x 2 ritesh ritesh 4096 Jan 23 08:42 Practical 
+drwxr-xr-x 3 ritesh ritesh 4096 Sep 21 18:50 wd101 
+drwxr-xr-x 3 ritesh ritesh 4096 Oct 20 18:29 wd201 
+ 
+4. cd: Navigate into the directory 
+ritesh@RITESHGUPTA:~$ cd Practical 
+ritesh@RITESHGUPTA:~/Practical$ pwd 
+/home/ritesh/Practical 
+ 
+5. touch: Create an empty file or update the timestamp of an existing file. 
+ritesh@RITESHGUPTA:~/Practical$ touch sample.txt 
+ritesh@RITESHGUPTA:~/Practical$ ls 
+sample.txt 
+ 
+6. echo: display text or output strings to the terminal or write them to a file. 
+ritesh@RITESHGUPTA:~/Practical$ echo "Hello Everyone... Welcome to OS 
+lab" > sample.txt 
+ 
+7. cat: Displays the content, creates, overwrites or append content a file 
+ritesh@RITESHGUPTA:~/Practical$ cat sample.txt 
+Hello Everyone... Welcome to OS lab 
+ritesh@RITESHGUPTA:~/Practical$ cat > sample.txt 
+Good Afternoon... Welcome to OS Lab 
+Lets learn Some Important Linux Commands 
+ritesh@RITESHGUPTA:~/Practical$ cat sample.txt 
+Good Afternoon... Welcome to OS Lab 
+Lets learn Some Important Linux Commands 
+ritesh@RITESHGUPTA:~/Practical$ cat >> sample.txt 
+My Name is Ritesh Gupta 
+From SE COMP-A 
+Roll no. 59 
+ritesh@RITESHGUPTA:~/Practical$ cat sample.txt 
+Good Afternoon... Welcome to OS Lab 
+Lets learn Some Important Linux Commands 
+My Name is Ritesh Gupta 
+From SE COMP-A 
+Roll no. 59 
+ 
+8. tac: displays the contents of a file in reverse order, starting from the last line to the first 
+ritesh@RITESHGUPTA:~/Practical$ tac sample.txt 
+Roll no. 59 
+From SE COMP-A 
+My Name is Ritesh Gupta 
+Lets learn Some Important Linux Commands 
+Good Afternoon... Welcome to OS Lab 
+ 
+9. cp: used to copy files and directories from one location to another 
+ritesh@RITESHGUPTA:~/Practical$ mkdir subdir 
+ritesh@RITESHGUPTA:~/Practical$ ls 
+sample.txt  subdir 
+ritesh@RITESHGUPTA:~/Practical$ cp sample.txt subdir/ 
+ritesh@RITESHGUPTA:~/Practical$ ls 
+sample.txt  subdir 
+ritesh@RITESHGUPTA:~/Practical$ cd subdir 
+ritesh@RITESHGUPTA:~/Practical/subdir$ ls 
+sample.txt 
+ritesh@RITESHGUPTA:~/Practical/subdir$ cat sample.txt 
+Good Afternoon... Welcome to OS Lab 
+Lets learn Some Important Linux Commands 
+My Name is Ritesh Gupta 
+From SE COMP-A 
+Roll no. 59 
+ 
+10. mv: used to move or rename files and directories 
+ritesh@RITESHGUPTA:~/Practical/subdir$ mv sample.txt moved_file.txt 
+ritesh@RITESHGUPTA:~/Practical/subdir$ ls 
+moved_file.txt 
+ritesh@RITESHGUPTA:~/Practical/subdir$ cat moved_file.txt 
+Good Afternoon... Welcome to OS Lab 
+Lets learn Some Important Linux Commands 
+My Name is Ritesh Gupta 
+From SE COMP-A 
+Roll no. 59 
+ 
+11. rm: delete files or directories 
+ritesh@RITESHGUPTA:~/Practical/subdir$ rm moved_file.txt 
+ritesh@RITESHGUPTA:~/Practical/subdir$ ls 
+ 
+12. rmdir: delete empty directories. 
+ritesh@RITESHGUPTA:~/Practical/subdir$ cd .. 
+ritesh@RITESHGUPTA:~/Practical$ ls 
+sample.txt  subdir 
+ritesh@RITESHGUPTA:~/Practical$ rmdir subdir 
+ritesh@RITESHGUPTA:~/Practical$ ls 
+sample.txt 
+ 
+13. rm -r: recursively delete directories and their contents, including all subdirectories and files. 
+ritesh@RITESHGUPTA:~/Practical$ cd .. 
+ritesh@RITESHGUPTA:~$ ls 
+Practical  wd101  wd201 
+ritesh@RITESHGUPTA:~$ rm -r Practical 
+ritesh@RITESHGUPTA:~$ ls 
+wd101  wd201 

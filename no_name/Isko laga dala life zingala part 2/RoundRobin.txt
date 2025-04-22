@@ -1,0 +1,77 @@
+Algorithm:
+1. Input number of processes `n` and their burst times.  
+2. Input time quantum `q`.  
+3. Initialize `remainingTime[i] = burstTime[i]`, `time = 0`.  
+4. Repeat until all processes are done:  
+   - For each process `i`:  
+     - If `remainingTime[i] > 0`:  
+       - If `remainingTime[i] > q`:  
+         - `time += q`, `remainingTime[i] -= q`  
+       - Else:  
+         - `time += remainingTime[i]`  
+         - `waitingTime[i] = time - burstTime[i]`  
+         - `remainingTime[i] = 0`  
+5. For each process `i`:  
+   - `turnaroundTime[i] = burstTime[i] + waitingTime[i]`  
+6. Calculate and print average waiting and turnaround times.
+
+
+CODE: 
+import java.util.Scanner;
+ public class RoundRobinScheduling {
+ public static void main(String[] args) {
+ Scanner sc = new Scanner(System.in);
+ // Input: Number of processes
+ System.out.print("Enter number of processes: ");
+ int n = sc.nextInt();
+int[] burstTime = new int[n];
+ int[] remainingTime = new int[n];
+ int[] waitingTime = new int[n];
+ int[] turnaroundTime = new int[n];
+ // Input: Burst time for each process
+ for (int i = 0; i < n; i++) {
+ System.out.print("Enter burst time for process " + (i + 1) + ": ");
+ burstTime[i] = sc.nextInt();
+ remainingTime[i] = burstTime[i];
+ }
+ // Input: Time Quantum
+ System.out.print("Enter time quantum: ");
+ int timeQuantum = sc.nextInt();
+ int time = 0;
+ boolean done;
+ do {
+ done = true;
+ for (int i = 0; i < n; i++) {
+ if (remainingTime[i] > 0) {
+ done = false;
+ if (remainingTime[i] > timeQuantum) {
+ time += timeQuantum;
+ remainingTime[i]-= timeQuantum;
+ } else {
+ time += remainingTime[i];
+waitingTime[i] = time- burstTime[i];
+ remainingTime[i] = 0;
+ }
+ }
+ }
+ } while (!done);
+ // Calculate Turnaround Time
+ for (int i = 0; i < n; i++) {
+ turnaroundTime[i] = burstTime[i] + waitingTime[i];
+ }
+ // Output: Display results
+ System.out.println("\nProcess\tBurst Time\tWaiting Time\tTurnaround Time");
+ for (int i = 0; i < n; i++) {
+ System.out.println("P" + (i + 1) + "\t\t" + burstTime[i] + "\t\t" + waitingTime[i] +
+ "\t\t" + turnaroundTime[i]);
+ }
+ // Average Waiting and Turnaround Time
+ float avgWT = 0, avgTAT = 0;
+ for (int i = 0; i < n; i++) {
+ avgWT +=waitingTime[i];
+ avgTAT += turnaroundTime[i];
+ }
+ System.out.println("\nAverage Waiting Time: " + (avgWT / n));
+ System.out.println("Average Turnaround Time: " + (avgTAT / n));
+ }
+ }

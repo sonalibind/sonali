@@ -1,0 +1,82 @@
+Algorithm:
+1. **Calculate Need Matrix**:  
+   For each process `i` and resource `j`:  
+   `Need[i][j] = Maximum[i][j] - Allocation[i][j]`
+
+2. **Initialize**:  
+   - `Finish[i] = False` for all processes `i`  
+   - `SafeSequence = []` (empty list)
+
+3. **Find Safe Sequence** (Repeat until all processes are finished or no further allocation is possible):  
+   a. Set `allocated = False`  
+   b. For each process `i` from 0 to `n-1`:  
+      - If `Finish[i] == False` and `Need[i][j] <= Available[j]` for all `j`:  
+        i. For all `j`, do `Available[j] += Allocation[i][j]`  
+        ii. Set `Finish[i] = True`  
+        iii. Add `process i` to `SafeSequence`  
+        iv. Set `allocated = True`  
+        v. Break out of the loop  
+   c. If `allocated == False`, exit the loop (no further processes can proceed)
+
+4. **Check Safety**:  
+   - If all `Finish[i] == True`:  
+     → System is in **SAFE state**  
+     → Print `SafeSequence`  
+   - Else:  
+     → System is in **UNSAFE state** (deadlock may occur)
+
+
+CODE:
+def bankers_algorithm(processes, resources, allocation, maximum, available):
+    n = len(processes)
+    m = len(resources)
+
+    # Calculate Need matrix
+    need = [[maximum[i][j] - allocation[i][j] for j in range(m)] for i in range(n)]
+    finish = [False] * n
+    safe_sequence = []
+
+    print("\nNeed Matrix:")
+    for i in range(n):
+        print(f"P{i}: {need[i]}")
+
+    while len(safe_sequence) < n:
+        allocated = False
+        for i in range(n):
+            if not finish[i] and all(need[i][j] <= available[j] for j in range(m)):
+                # Allocate resources
+                for j in range(m):
+                    available[j] += allocation[i][j]
+                finish[i] = True
+                safe_sequence.append(processes[i])
+                allocated = True
+                break
+        if not allocated:
+            break
+
+    if len(safe_sequence) == n:
+        print("\nSystem is in a SAFE state.")
+        print("Safe sequence:", " -> ".join(safe_sequence))
+    else:
+        print("\nSystem is in an UNSAFE state. Deadlock may occur.")
+
+# Example usage
+if __name__ == "__main__":
+    processes = ['P0', 'P1', 'P2', 'P3', 'P4']
+    resources = ['A', 'B', 'C']
+    allocation = [
+        [0, 1, 0],
+        [2, 0, 0],
+        [3, 0, 2],
+        [2, 1, 1],
+        [0, 0, 2]
+    ]
+    maximum = [
+        [7, 5, 3],
+        [3, 2, 2],
+        [9, 0, 2],
+        [2, 2, 2],
+        [4, 3, 3]
+    ]
+    available = [3, 3, 2]
+    bankers_algorithm(processes, resources, allocation, maximum, available)
